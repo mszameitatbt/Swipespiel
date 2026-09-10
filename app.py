@@ -10,43 +10,54 @@ ADMIN_PIN = os.environ.get("ADMIN_PIN", "1791")
 
 QUESTIONS = [
     {
-        "text": "Der König bleibt Staatsoberhaupt.",
+        "id": 1,
+        "text": "Die Verfassung von 1791 beendet die politische Vorherrschaft des Königs, obwohl er weiterhin Staatsoberhaupt bleibt."
     },
     {
-        "text": "Eine gewählte Nationalversammlung macht die Gesetze.",
+        "id": 2,
+        "text": "Die Einführung einer gewählten Nationalversammlung stellt einen grundlegenden Bruch mit der politischen Ordnung des Ancien Régime dar."
     },
     {
-        "text": "Die politische Staatsgewalt geht von der Nation aus.",
+        "id": 3,
+        "text": "Wenn die Staatsgewalt von der Nation ausgeht, bedeutet dies, dass politische Herrschaft nicht mehr allein durch die Stellung des Königs legitimiert wird."
     },
     {
-        "text": "Alle Bürger sind vor dem Gesetz gleich.",
+        "id": 4,
+        "text": "Die rechtliche Gleichheit der Bürger beseitigt die gesellschaftlichen Unterschiede zwischen Adel, Klerus und dem übrigen Volk."
     },
     {
-        "text": "Nur Männer, die bestimmte Voraussetzungen erfüllen, dürfen wählen.",
+        "id": 5,
+        "text": "Eine Verfassung kann als revolutionär gelten, obwohl ein großer Teil der Bevölkerung weiterhin vom politischen Entscheidungsprozess ausgeschlossen bleibt."
     },
     {
-        "text": "Frauen dürfen nicht an den politischen Wahlen teilnehmen.",
+        "id": 6,
+        "text": "Dass Frauen keine politischen Rechte erhalten, widerspricht dem Anspruch der Revolution auf Freiheit und Gleichheit."
     },
     {
-        "text": "Der König kann Gesetze für eine gewisse Zeit verhindern.",
+        "id": 7,
+        "text": "Das Vetorecht des Königs zeigt, dass die Revolutionäre die monarchische Herrschaft nicht vollständig abschaffen wollten."
     },
     {
-        "text": "Der König darf nicht mehr allein über Frankreich bestimmen.",
+        "id": 8,
+        "text": "Die Beschränkung der politischen Macht des Königs bedeutet nicht automatisch, dass Frankreich bereits eine demokratische Ordnung geschaffen hat."
     },
     {
-        "text": "Adel und Klerus haben weiterhin besondere Rechte gegenüber anderen Bürgern.",
+        "id": 9,
+        "text": "Die Abschaffung ständischer Vorrechte verändert die rechtliche Ordnung stärker als die bloße Einführung einer gewählten Volksvertretung."
     },
     {
-        "text": "Jeder Bürger darf seine Meinung frei äußern.",
+        "id": 10,
+        "text": "Wenn politische Rechte von Besitz oder Steuerleistung abhängen, widerspricht dies dem Gedanken der Volkssouveränität."
     },
     {
-        "text": "Die politischen Rechte hängen auch vom Besitz bzw. von der gezahlten Steuer ab.",
+        "id": 11,
+        "text": "Die Verteilung staatlicher Macht auf verschiedene Institutionen verhindert, dass politische Herrschaft erneut vollständig in den Händen einer einzelnen Person liegt."
     },
     {
-        "text": "Die Macht des Staates wird zwischen verschiedenen Institutionen aufgeteilt.",
-    },
+        "id": 12,
+        "text": "Die Verfassung von 1791 verwirklicht die Forderungen der Französischen Revolution nur teilweise."
+    }
 ]
-
 # Alles wird nur im laufenden Prozess gehalten.
 # Keine Namen, E-Mail-Adressen oder individuellen Antwortverläufe werden gespeichert.
 state = {
