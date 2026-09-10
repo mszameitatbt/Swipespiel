@@ -10,45 +10,41 @@ ADMIN_PIN = os.environ.get("ADMIN_PIN", "1791")
 
 QUESTIONS = [
     {
-        "id": 1,
         "text": "Der König bleibt Staatsoberhaupt.",
-        "hint": "Monarchie bleibt bestehen."
     },
     {
-        "id": 2,
         "text": "Eine gewählte Nationalversammlung macht die Gesetze.",
-        "hint": "Gesetzgebung durch eine gewählte Vertretung."
     },
     {
-        "id": 3,
-        "text": "Alle Bürger sind vor dem Gesetz gleich.",
-        "hint": "Rechtliche Gleichheit statt ständischer Privilegien."
-    },
-    {
-        "id": 4,
-        "text": "Nur Männer, die bestimmte Voraussetzungen erfüllen, dürfen wählen.",
-        "hint": "Politische Mitbestimmung ist eingeschränkt."
-    },
-    {
-        "id": 5,
-        "text": "Der König kann Gesetze für eine gewisse Zeit verhindern.",
-        "hint": "Der König behält politischen Einfluss."
-    },
-    {
-        "id": 6,
-        "text": "Frauen dürfen nicht an den politischen Wahlen teilnehmen.",
-        "hint": "Die politische Gleichheit hat Grenzen."
-    },
-    {
-        "id": 7,
         "text": "Die politische Staatsgewalt geht von der Nation aus.",
-        "hint": "Volkssouveränität statt absoluter Königsherrschaft."
     },
     {
-        "id": 8,
-        "text": "Adel und Klerus behalten ihre politischen Sonderrechte als Stände.",
-        "hint": "Eine Aussage zum Vergleich mit dem Ancien Régime."
-    }
+        "text": "Alle Bürger sind vor dem Gesetz gleich.",
+    },
+    {
+        "text": "Nur Männer, die bestimmte Voraussetzungen erfüllen, dürfen wählen.",
+    },
+    {
+        "text": "Frauen dürfen nicht an den politischen Wahlen teilnehmen.",
+    },
+    {
+        "text": "Der König kann Gesetze für eine gewisse Zeit verhindern.",
+    },
+    {
+        "text": "Der König darf nicht mehr allein über Frankreich bestimmen.",
+    },
+    {
+        "text": "Adel und Klerus haben weiterhin besondere Rechte gegenüber anderen Bürgern.",
+    },
+    {
+        "text": "Jeder Bürger darf seine Meinung frei äußern.",
+    },
+    {
+        "text": "Die politischen Rechte hängen auch vom Besitz bzw. von der gezahlten Steuer ab.",
+    },
+    {
+        "text": "Die Macht des Staates wird zwischen verschiedenen Institutionen aufgeteilt.",
+    },
 ]
 
 # Alles wird nur im laufenden Prozess gehalten.
