@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SWIPE 1791</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="student-body">
+<main class="student-shell">
+  <header class="brand">
+    <div class="flag"><span></span><span></span><span></span></div>
+    <div>
+      <div class="eyebrow">FRANZÖSISCHE REVOLUTION</div>
+      <h1>SWIPE 1791</h1>
+    </div>
+  </header>
+
+  <section id="waiting" class="card center">
+    <div class="big-icon">⌛</div>
+    <h2>Warte auf die nächste Aussage</h2>
+    <p>Die Lehrkraft startet die Abstimmung gleich.</p>
+  </section>
+
+  <section id="voteArea" class="hidden">
+    <div class="round-pill" id="roundPill">RUNDE 1</div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="counter" id="counter"></div>
+
+    <article class="statement-card" id="card">
+      <div class="card-number" id="number"></div>
+      <div class="card-ornament">⚖</div>
+      <h2 id="statement"></h2>
+      <p id="hint" class="hint"></p>
+    </article>
+
+    <div id="buttons" class="vote-buttons">
+      <button class="vote no" data-answer="no">← <span>DAGEGEN</span></button>
+      <button class="vote yes" data-answer="yes"><span>DAFÜR</span> →</button>
+    </div>
+
+    <div id="done" class="card center hidden">
+      <div class="big-icon">✓</div>
+      <h2>Entscheidung gespeichert</h2>
+      <p>Du siehst das Ergebnis erst, wenn die Lehrkraft es freigibt.</p>
+    </div>
+
+    <div id="revealed" class="result-card hidden">
+      <div class="result-title">KLASSENERGEBNIS</div>
+      <div class="result-bars">
+        <div><span>AKZEPTIEREN</span><strong id="yesCount">0</strong></div>
+        <div class="bar"><i id="yesBar"></i></div>
+        <div><span>ABLEHNEN</span><strong id="noCount">0</strong></div>
+        <div class="bar"><i id="noBar"></i></div>
+      </div>
+    </div>
+  </section>
+<div style="text-align:center;margin-top:12px;font-size:.7rem;color:#747474;"><a href="/privacy">Datenschutz</a></div>
+</main>
+<script src="/static/student.js"></script>
+</body>
+</html>

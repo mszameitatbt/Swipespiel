@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SWIPE 1791 – Lehrkraft</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="admin-body">
+<div id="login" class="login-screen">
+  <div class="login-card">
+    <div class="eyebrow">LEHRERBEREICH</div>
+    <h1>SWIPE 1791</h1>
+    <p>Admin-PIN eingeben.</p>
+    <input id="pin" type="password" inputmode="numeric" placeholder="PIN">
+    <button class="primary" id="loginBtn">Einloggen</button>
+    <p id="loginError" class="error"></p>
+  </div>
+</div>
+
+<main id="dashboard" class="dashboard hidden">
+  <header class="admin-header">
+    <div>
+      <div class="eyebrow">LEHRER-DASHBOARD</div>
+      <h1>SWIPE 1791</h1>
+    </div>
+    <div class="header-actions">
+      <span id="round" class="round-pill">RUNDE 1</span>
+      <button class="ghost" id="logoutBtn">Abmelden</button>
+    </div>
+  </header>
+
+  <section class="teacher-grid">
+    <div class="control-card">
+      <div class="section-label">AKTUELLE AUSSAGE</div>
+      <div id="qNumber" class="q-number">–</div>
+      <h2 id="qText">Noch keine Session gestartet.</h2>
+      <p id="qHint" class="hint"></p>
+
+      <div class="status-line">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">Inaktiv</span>
+        <strong id="total">0 Antworten</strong>
+      </div>
+
+      <div class="teacher-buttons">
+        <button class="primary" id="startBtn">Neue Session</button>
+        <button class="primary" id="openBtn">Abstimmung öffnen</button>
+        <button class="secondary" id="closeBtn">Abstimmung schließen</button>
+        <button class="secondary" id="revealBtn">Ergebnis zeigen</button>
+        <button class="primary" id="nextBtn">Nächste Aussage →</button>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <div class="section-label">ERGEBNIS</div>
+      <div class="big-percent" id="yesPercent">–</div>
+      <div class="percent-label">AKZEPTIEREN</div>
+      <div class="bar large"><i id="teacherYesBar"></i></div>
+      <div class="result-row"><span>JA</span><strong id="teacherYes">0</strong></div>
+      <div class="result-row"><span>NEIN</span><strong id="teacherNo">0</strong></div>
+      <p class="privacy-note">Nur aggregierte Zahlen. Keine individuellen Antworten.</p>
+    </div>
+  </section>
+
+  <section class="class-tools">
+    <div class="tool-card">
+      <div class="section-label">RUNDE 2</div>
+      <h2>Nach der Quellenarbeit erneut abstimmen</h2>
+      <p>Runde 1 und Runde 2 werden technisch nicht auf Personenebene verknüpft.</p>
+      <button class="secondary" id="round2Btn">Runde 2 starten</button>
+    </div>
+    <div class="tool-card">
+      <div class="section-label">ABSCHLUSSURTEIL</div>
+      <h2>Wie revolutionär war die Verfassung?</h2>
+      <p>Die Klasse gibt eine Bewertung von 0 bis 10 ab.</p>
+      <div class="score-grid" id="scoreGrid"></div>
+      <div id="scoreAverage" class="score-average">Noch keine Bewertungen</div>
+    </div>
+  </section>
+
+  <section class="summary-card">
+    <div class="section-label">VORHER / NACHHER</div>
+    <h2>Klassenentwicklung</h2>
+    <div id="summary"></div>
+  </section>
+
+  <section class="teacher-footer">
+    <button class="danger" id="resetBtn">Session und Ergebnisse löschen</button>
+    <span>Für eine neue Klasse einfach zurücksetzen.</span>
+  </section>
+</main>
+<script src="/static/admin.js"></script>
+</body>
+</html>
