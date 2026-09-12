@@ -25,14 +25,14 @@
       <h1>SWIPE 1791</h1>
     </div>
     <div class="header-actions">
-      <span id="round" class="round-pill">RUNDE 1</span>
+      <span id="phase" class="round-pill">RUNDE 1</span>
       <button class="ghost" id="logoutBtn">Abmelden</button>
     </div>
   </header>
 
   <section class="teacher-grid">
     <div class="control-card">
-      <div class="section-label">AKTUELLE AUSSAGE</div>
+      <div class="section-label">AKTUELLE PHASE</div>
       <div id="qNumber" class="q-number">–</div>
       <h2 id="qText">Noch keine Session gestartet.</h2>
       <p id="qHint" class="hint"></p>
@@ -49,27 +49,76 @@
         <button class="secondary" id="closeBtn">Abstimmung schließen</button>
         <button class="secondary" id="revealBtn">Ergebnis zeigen</button>
         <button class="primary" id="nextBtn">Nächste Aussage →</button>
+        <button class="primary" id="constitutionStartBtn">Verfassungsbau starten</button>
       </div>
     </div>
 
     <div class="result-panel">
-      <div class="section-label">ERGEBNIS</div>
+      <div class="section-label">ERGEBNIS RUNDE 1</div>
       <div class="big-percent" id="yesPercent">–</div>
-      <div class="percent-label">AKZEPTIEREN</div>
+      <div class="percent-label">DAFÜR</div>
       <div class="bar large"><i id="teacherYesBar"></i></div>
-      <div class="result-row"><span>JA</span><strong id="teacherYes">0</strong></div>
-      <div class="result-row"><span>NEIN</span><strong id="teacherNo">0</strong></div>
+      <div class="result-row"><span>DAFÜR</span><strong id="teacherYes">0</strong></div>
+      <div class="result-row"><span>DAGEGEN</span><strong id="teacherNo">0</strong></div>
       <p class="privacy-note">Nur aggregierte Zahlen. Keine individuellen Antworten.</p>
     </div>
   </section>
 
-  <section class="class-tools">
+  <section id="constitutionControls" class="constitution-admin hidden">
     <div class="tool-card">
-      <div class="section-label">RUNDE 2</div>
-      <h2>Nach der Quellenarbeit erneut abstimmen</h2>
-      <p>Runde 1 und Runde 2 werden technisch nicht auf Personenebene verknüpft.</p>
-      <button class="secondary" id="round2Btn">Runde 2 starten</button>
+      <div class="section-label">1 · VORSCHLÄGE SAMMELN</div>
+      <h2>Welche Regel soll in die Verfassung?</h2>
+      <p>Jedes Gerät kann einen eigenen Vorschlag einsenden. Die Lehrkraft entscheidet, welcher Vorschlag als Nächstes zur Abstimmung kommt.</p>
+      <button class="secondary" id="closeSubmissionsBtn">Vorschläge schließen</button>
+      <span id="submissionStatus" class="small-status"></span>
+
+      <div id="proposalQueue" class="proposal-queue"></div>
     </div>
+
+    <div class="tool-card">
+      <div class="section-label">2 · KLASSENABSTIMMUNG</div>
+      <h2 id="currentProposalTitle">Noch kein Vorschlag ausgewählt</h2>
+      <div id="currentProposal" class="live-proposal">
+        Wähle links einen Vorschlag aus.
+      </div>
+
+      <div class="proposal-buttons">
+        <button class="primary" id="openProposalBtn">Abstimmung öffnen</button>
+        <button class="secondary" id="closeProposalBtn">Abstimmung schließen</button>
+        <button class="secondary" id="revealProposalBtn">Ergebnis zeigen</button>
+        <button class="primary" id="acceptProposalBtn">Mehrheit übernehmen</button>
+        <button class="danger" id="rejectProposalBtn">Ablehnen</button>
+      </div>
+
+      <div class="proposal-result">
+        <div class="big-percent" id="proposalYesPercent">–</div>
+        <div class="percent-label">AUFNEHMEN</div>
+        <div class="bar large"><i id="proposalYesBar"></i></div>
+        <div class="result-row"><span>AUFNEHMEN</span><strong id="proposalYes">0</strong></div>
+        <div class="result-row"><span>NICHT AUFNEHMEN</span><strong id="proposalNo">0</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="constitutionLive" class="constitution-admin hidden">
+    <div class="summary-card">
+      <div class="section-label">3 · UNSERE KLASSENVERFASSUNG</div>
+      <h2>Was haben wir beschlossen?</h2>
+      <div id="constitutionRules"></div>
+    </div>
+
+    <div class="summary-card">
+      <div class="section-label">4 · VERGLEICH MIT 1791</div>
+      <h2>Unsere Verfassung und die historische Verfassung</h2>
+      <p class="comparison-intro">
+        Nutzt diese Übersicht erst nach Abschluss des Verfassungsbaus.
+        Die freien Schülervorschläge werden nicht automatisch als richtig oder falsch bewertet.
+      </p>
+      <div class="actual-rules" id="actualRules"></div>
+    </div>
+  </section>
+
+  <section class="class-tools">
     <div class="tool-card">
       <div class="section-label">ABSCHLUSSURTEIL</div>
       <h2>Wie revolutionär war die Verfassung?</h2>
@@ -77,11 +126,20 @@
       <div class="score-grid" id="scoreGrid"></div>
       <div id="scoreAverage" class="score-average">Noch keine Bewertungen</div>
     </div>
+    <div class="tool-card">
+      <div class="section-label">UNTERRICHTSLOGIK</div>
+      <h2>Vom eigenen Entwurf zur historischen Verfassung</h2>
+      <p>
+        Erst eigene Regeln entwickeln, dann mit 1791 vergleichen:
+        Wo stimmen wir überein? Wo unterscheiden wir uns? Und was sagt das über
+        die Ziele und Grenzen der Revolution aus?
+      </p>
+    </div>
   </section>
 
   <section class="summary-card">
-    <div class="section-label">VORHER / NACHHER</div>
-    <h2>Klassenentwicklung</h2>
+    <div class="section-label">RUNDE 1</div>
+    <h2>Klassenstatistik</h2>
     <div id="summary"></div>
   </section>
 
@@ -90,6 +148,7 @@
     <span>Für eine neue Klasse einfach zurücksetzen.</span>
   </section>
 </main>
+
 <script src="/static/admin.js"></script>
 </body>
 </html>
