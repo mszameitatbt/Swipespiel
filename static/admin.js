@@ -386,6 +386,31 @@ return `
 
   </div>`;
     }).join("");
+
+$("scoreGrid").innerHTML="";
+for(let i=0;i<=10;i++){
+const b=document.createElement("button");
+b.textContent=i;
+b.onclick=()=>submitScore(i);
+$("scoreGrid").appendChild(b);
+}
+
+$("scoreAverage").textContent =
+d.score_average===null
+? "Noch keine Bewertungen"
+: Klassenmittel: ${d.score_average}/10 (${d.scores.length} Stimmen);
+}
+
+async function submitScore(score){
+try{
+await api("/api/admin/final-score",{
+method:"POST",
+body.stringify({score})
+});
+renderSummary();
+}catch(e){
+alert(e.message);
+}
 }
 
 setInterval(refresh,1000);
