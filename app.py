@@ -428,7 +428,7 @@ def admin_start_constitution():
     state["constitution_rules"] = []
     state["comparison_released"] = False
     session.pop("proposal_voted_id", None)
-    session.pop("proposal_submitted", None)
+    session.pop("proposal_session_id", None)
 
     return jsonify({"ok": True})
 
