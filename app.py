@@ -550,27 +550,40 @@ def admin_reveal_proposal():
 
 @app.route("/api/proposal/vote", methods=["POST"])
 def vote_proposal():
+    # Prüfen, ob der Browser zur aktuellen Unterrichts-Session gehört
+    ensure_student_session()
+
     if (
         not state["active"]
         or state["phase"] != "constitution"
         or not state["proposal_accepting"]
         or current_proposal() is None
     ):
-        return jsonify({"ok": False, "error": "Die Abstimmung ist gerade geschlossen."}), 409
+        return jsonify({
+            "ok": False,
+            "error": "Die Abstimmung ist gerade geschlossen."
+        }), 409
 
     proposal_id = current_proposal()["id"]
 
     if session.get("proposal_voted_id") == proposal_id:
-        return jsonify({"ok": False, "error": "Du hast bereits abgestimmt."}), 409
+        return jsonify({
+            "ok": False,
+            "error": "Du hast bereits abgestimmt."
+        }), 409
 
     data = request.get_json(silent=True) or {}
     answer = data.get("answer")
 
     if answer not in ("yes", "no"):
-        return jsonify({"ok": False, "error": "Ungültige Antwort."}), 400
+        return jsonify({
+            "ok": False,
+            "error": "Ungültige Antwort."
+        }), 400
 
     state["proposal_votes"][answer] += 1
     state["proposal_votes"]["total"] += 1
+
     session["proposal_voted_id"] = proposal_id
     session.modified = True
 
