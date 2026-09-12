@@ -190,6 +190,7 @@ function renderRound1(s){
 
 function renderConstitution(s){
   $("round1Statistics").classList.add("hidden");
+  $("result-panel").classList.add("hidden");
 
   $("qNumber").textContent="VERFASSUNGSBAU";
   $("qText").textContent="Die Klasse entwirft Schritt für Schritt ihre eigene Verfassung.";
@@ -237,8 +238,6 @@ function renderConstitution(s){
   if(s.comparison_released){
     renderActualRules(s.actual_constitution||[]);
   }
-
-  $("result-panel").classList.add("hidden");
 }
 
 function renderProposalQueue(proposals){
