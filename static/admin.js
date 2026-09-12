@@ -154,6 +154,7 @@ function render(s){
 
 function renderRound1(s){
   $("round1Statistics").classList.remove("hidden");
+  $("instruction-panel").classList.add("hidden");
   $("result-panel").classList.remove("hidden");
 
   $("qNumber").textContent =
@@ -192,6 +193,7 @@ function renderRound1(s){
 function renderConstitution(s){
   $("round1Statistics").classList.add("hidden");
   $("result-panel").classList.add("hidden");
+  $("instruction-panel").classList.remove("hidden");
 
   $("qNumber").textContent="VERFASSUNGSBAU";
   $("qText").textContent="Die Klasse entwirft Schritt für Schritt ihre eigene Verfassung.";
