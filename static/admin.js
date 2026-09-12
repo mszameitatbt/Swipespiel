@@ -350,14 +350,33 @@ async function renderSummary(){
         ? Math.round(x.round1.yes/x.round1.total*100)
         : 0;
 
-      return `
-        <div class="summary-row">
-          <div>${x.question.id}. ${escapeHtml(x.question.text)}</div>
-          <div>
-            ${p1}% DAFÜR
-            <div class="mini-bar"><i style="width:${p1}%"></i></div>
-          </div>
-        </div>`;
+      const total = x.round1.total || 0;
+const yes = x.round1.yes || 0;
+const no = x.round1.no || 0;
+
+const pYes = total ? Math.round(yes / total * 100) : 0;
+const pNo = total ? Math.round(no / total * 100) : 0;
+
+return `
+  <div class="summary-row">
+    <div>${x.question.id}. ${escapeHtml(x.question.text)}</div>
+
+    <div class="summary-result">
+      <div class="summary-result-labels">
+        <span>DAFÜR</span>
+        <strong>${pYes}% · ${yes}</strong>
+      </div>
+
+      <div class="mini-bar">
+        <i style="width:${pYes}%"></i>
+      </div>
+
+      <div class="summary-result-labels summary-no">
+        <span>DAGEGEN</span>
+        <strong>${pNo}% · ${no}</strong>
+      </div>
+    </div>
+  </div>`;
     }).join("");
 
   $("scoreGrid").innerHTML="";
