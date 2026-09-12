@@ -1,162 +1,630 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SWIPE 1791 – Lehrkraft</title>
-<link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SWIPE 1791 · Admin</title>
+
+  <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="admin-body">
-<div id="login" class="login-screen">
-  <div class="login-card">
-    <div class="eyebrow">LEHRERBEREICH</div>
-    <h1>SWIPE 1791</h1>
-    <p>Admin-PIN eingeben.</p>
-    <input id="pin" type="password" inputmode="numeric" placeholder="PIN">
-    <button class="primary" id="loginBtn">Einloggen</button>
-    <p id="loginError" class="error"></p>
-  </div>
-</div>
 
-<main id="dashboard" class="dashboard hidden">
-  <header class="admin-header">
-    <div>
-      <div class="eyebrow">LEHRER-DASHBOARD</div>
-      <h1>SWIPE 1791</h1>
-    </div>
-    <div class="header-actions">
-      <span id="phase" class="round-pill">RUNDE 1</span>
-      <button class="ghost" id="logoutBtn">Abmelden</button>
-    </div>
-  </header>
+<body>
 
-  <section class="teacher-grid">
-    <div class="control-card">
-      <div class="section-label">AKTUELLE PHASE</div>
-      <div id="qNumber" class="q-number">–</div>
-      <h2 id="qText">Noch keine Session gestartet.</h2>
-      <p id="qHint" class="hint"></p>
+<div class="page">
 
-      <div class="status-line">
-        <span id="statusDot" class="status-dot"></span>
-        <span id="statusText">Inaktiv</span>
-        <strong id="total">0 Antworten</strong>
-      </div>
+  <!-- =========================================================
+       LOGIN
+       ========================================================= -->
 
-      <div class="teacher-buttons">
-        <button class="primary" id="startBtn">Neue Session</button>
-        <button class="primary" id="openBtn">Abstimmung öffnen</button>
-        <button class="secondary" id="closeBtn">Abstimmung schließen</button>
-        <button class="secondary" id="revealBtn">Ergebnis zeigen</button>
-        <button class="primary" id="nextBtn">Nächste Aussage →</button>
-        <button class="primary" id="constitutionStartBtn">Verfassungsbau starten</button>
-      </div>
+  <section id="login" class="login-card">
+
+    <div class="section-label">SWIPE 1791</div>
+
+    <h1>Lehrerbereich</h1>
+
+    <p class="muted">
+      Bitte PIN eingeben, um die Unterrichtssitzung zu steuern.
+    </p>
+
+    <div class="login-form">
+      <input
+        id="pin"
+        type="password"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="PIN"
+      >
+
+      <button id="loginBtn">
+        Einloggen
+      </button>
     </div>
 
-    <div class="result-panel">
-      <div class="section-label">ERGEBNIS RUNDE 1</div>
-      <div class="big-percent" id="yesPercent">–</div>
-      <div class="percent-label">DAFÜR</div>
-      <div class="bar large"><i id="teacherYesBar"></i></div>
-      <div class="result-row"><span>DAFÜR</span><strong id="teacherYes">0</strong></div>
-      <div class="result-row"><span>DAGEGEN</span><strong id="teacherNo">0</strong></div>
-      <p class="privacy-note">Nur aggregierte Zahlen. Keine individuellen Antworten.</p>
-    </div>
+    <div id="loginError" class="error"></div>
+
   </section>
 
-  <section id="constitutionControls" class="constitution-admin hidden">
-    <div class="tool-card">
-      <div class="section-label">1 · VORSCHLÄGE SAMMELN</div>
-      <h2>Welche Regel soll in die Verfassung?</h2>
-      <p>Jedes Gerät kann einen eigenen Vorschlag einsenden. Die Lehrkraft entscheidet, welcher Vorschlag als Nächstes zur Abstimmung kommt.</p>
-      <button class="secondary" id="closeSubmissionsBtn">Vorschläge schließen</button>
-      <span id="submissionStatus" class="small-status"></span>
 
-      <div id="proposalQueue" class="proposal-queue"></div>
-    </div>
+  <!-- =========================================================
+       DASHBOARD
+       ========================================================= -->
 
-    <div class="tool-card">
-      <div class="section-label">2 · KLASSENABSTIMMUNG</div>
-      <h2 id="currentProposalTitle">Noch kein Vorschlag ausgewählt</h2>
-      <div id="currentProposal" class="live-proposal">
-        Wähle links einen Vorschlag aus.
+  <main id="dashboard" class="hidden">
+
+    <!-- HEADER -->
+
+    <header class="topbar">
+
+      <div>
+        <div class="section-label">SWIPE 1791</div>
+
+        <h1>Lehrer-Dashboard</h1>
+
+        <div class="phase-display">
+          <span id="phase">RUNDE 1</span>
+        </div>
       </div>
 
-      <div class="proposal-buttons">
-        <button class="primary" id="openProposalBtn">Abstimmung öffnen</button>
-        <button class="secondary" id="closeProposalBtn">Abstimmung schließen</button>
-        <button class="secondary" id="revealProposalBtn">Ergebnis zeigen</button>
-        <button class="primary" id="acceptProposalBtn">Mehrheit übernehmen</button>
-        <button class="danger" id="rejectProposalBtn">Ablehnen</button>
+      <button
+        id="logoutBtn"
+        class="secondary"
+      >
+        Abmelden
+      </button>
+
+    </header>
+
+
+    <!-- =======================================================
+         RUNDE / AKTUELLE AUSSAGE
+         ======================================================= -->
+
+    <section class="teacher-grid">
+
+      <div class="teacher-main">
+
+        <div class="section-label" id="qNumber">
+          –
+        </div>
+
+        <h2 id="qText">
+          Noch keine Session gestartet.
+        </h2>
+
+        <p id="qHint" class="muted">
+          Starte die Unterrichtssitzung.
+        </p>
+
       </div>
 
-      <div class="proposal-result">
-        <div class="big-percent" id="proposalYesPercent">–</div>
-        <div class="percent-label">AUFNEHMEN</div>
-        <div class="bar large"><i id="proposalYesBar"></i></div>
-        <div class="result-row"><span>AUFNEHMEN</span><strong id="proposalYes">0</strong></div>
-        <div class="result-row"><span>NICHT AUFNEHMEN</span><strong id="proposalNo">0</strong></div>
+
+      <div class="teacher-status">
+
+        <div class="status-line">
+
+          <span
+            id="statusDot"
+            class="status-dot"
+          ></span>
+
+          <span id="statusText">
+            Inaktiv
+          </span>
+
+        </div>
+
+        <div
+          id="total"
+          class="total-votes"
+        >
+          0 Antworten
+        </div>
+
       </div>
-    </div>
-  </section>
 
-  <section id="constitutionLive" class="constitution-admin hidden">
-    <div class="summary-card">
-      <div class="section-label">3 · UNSERE KLASSENVERFASSUNG</div>
-      <h2>Was haben wir beschlossen?</h2>
-      <div id="constitutionRules"></div>
-    </div>
+    </section>
 
-    <div class="summary-card">
-  <div class="section-label">4 · VERGLEICH MIT 1791</div>
 
-  <h2>Unsere Verfassung und die historische Verfassung</h2>
+    <!-- =======================================================
+         LIVE-ABSTIMMUNG
+         ======================================================= -->
 
-  <p class="comparison-intro">
-    Nutzt diese Übersicht erst nach Abschluss des Verfassungsbaus.
-    Die freien Schülervorschläge werden nicht automatisch als richtig oder falsch bewertet.
-  </p>
+    <section class="teacher-vote-card">
 
-  <button class="secondary" id="releaseComparisonBtn">
-    Historischen Vergleich anzeigen
-  </button>
+      <div class="vote-stat">
 
-  <div id="comparisonArea" class="hidden">
-    <div class="actual-rules" id="actualRules"></div>
-  </div>
-</div>
+        <div class="vote-stat-label">
+          DAFÜR
+        </div>
 
-  <section class="class-tools">
-    <div class="tool-card">
-      <div class="section-label">ABSCHLUSSURTEIL</div>
-      <h2>Wie revolutionär war die Verfassung?</h2>
-      <p>Die Klasse gibt eine Bewertung von 0 bis 10 ab.</p>
-      <div class="score-grid" id="scoreGrid"></div>
-      <div id="scoreAverage" class="score-average">Noch keine Bewertungen</div>
-    </div>
-    <div class="tool-card">
-      <div class="section-label">UNTERRICHTSLOGIK</div>
-      <h2>Vom eigenen Entwurf zur historischen Verfassung</h2>
-      <p>
-        Erst eigene Regeln entwickeln, dann mit 1791 vergleichen:
-        Wo stimmen wir überein? Wo unterscheiden wir uns? Und was sagt das über
-        die Ziele und Grenzen der Revolution aus?
+        <div
+          id="yesPercent"
+          class="vote-stat-number"
+        >
+          –
+        </div>
+
+        <div
+          id="teacherYes"
+          class="vote-stat-count"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="vote-bar-container">
+
+        <div class="vote-bar">
+
+          <div
+            id="teacherYesBar"
+            class="vote-bar-yes"
+            style="width:0%"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="vote-stat">
+
+        <div class="vote-stat-label">
+          DAGEGEN
+        </div>
+
+        <div
+          id="teacherNo"
+          class="vote-stat-number"
+        >
+          0
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         RUNDE 1 CONTROLS
+         ======================================================= -->
+
+    <section class="teacher-controls">
+
+      <button
+        id="startBtn"
+        class="primary"
+      >
+        Session starten
+      </button>
+
+      <button
+        id="openBtn"
+        class="primary hidden"
+      >
+        Abstimmung öffnen
+      </button>
+
+      <button
+        id="closeBtn"
+        class="secondary hidden"
+      >
+        Abstimmung schließen
+      </button>
+
+      <button
+        id="revealBtn"
+        class="secondary hidden"
+      >
+        Ergebnis anzeigen
+      </button>
+
+      <button
+        id="nextBtn"
+        class="primary hidden"
+      >
+        Nächste Aussage
+      </button>
+
+      <button
+        id="constitutionStartBtn"
+        class="primary hidden"
+      >
+        Verfassungsbau starten
+      </button>
+
+    </section>
+
+
+    <!-- =======================================================
+         KLASSENSTATISTIK
+         ======================================================= -->
+
+    <section class="summary-card">
+
+      <div class="section-label">
+        RUNDE 1
+      </div>
+
+      <h2>
+        Klassenstatistik
+      </h2>
+
+      <p class="muted">
+        Die Abstimmungsergebnisse aller zwölf Aussagen werden
+        während der Runde laufend aktualisiert.
       </p>
-    </div>
-  </section>
 
-  <section class="summary-card">
-    <div class="section-label">RUNDE 1</div>
-    <h2>Klassenstatistik</h2>
-    <div id="summary"></div>
-  </section>
+      <div id="summary"></div>
 
-  <section class="teacher-footer">
-    <button class="danger" id="resetBtn">Session und Ergebnisse löschen</button>
-    <span>Für eine neue Klasse einfach zurücksetzen.</span>
-  </section>
-</main>
+    </section>
+
+
+    <!-- =======================================================
+         VERFASSUNGSBAU
+         ======================================================= -->
+
+    <section
+      id="constitutionControls"
+      class="constitution-controls hidden"
+    >
+
+      <div class="section-label">
+        VERFASSUNGSBAU
+      </div>
+
+      <h2>
+        Eigene Verfassung der Klasse
+      </h2>
+
+      <p class="muted">
+        Die Schülerinnen und Schüler schlagen Regeln vor.
+        Du wählst die Vorschläge einzeln aus und lässt die Klasse
+        darüber abstimmen.
+      </p>
+
+
+      <div class="submission-control">
+
+        <div>
+
+          <strong>
+            Vorschläge
+          </strong>
+
+          <div
+            id="submissionStatus"
+            class="muted"
+          >
+            ● geschlossen
+          </div>
+
+        </div>
+
+        <button
+          id="closeSubmissionsBtn"
+          class="secondary"
+        >
+          Vorschläge schließen
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         VERFASSUNGSBAU LIVE
+         ======================================================= -->
+
+    <section
+      id="constitutionLive"
+      class="constitution-admin hidden"
+    >
+
+      <!-- -------------------------------------------------------
+           ABSCHNITT 1: VORSCHLAGSWARTESCHLANGE
+           ------------------------------------------------------- -->
+
+      <div class="summary-card">
+
+        <div class="section-label">
+          1 · VORSCHLÄGE
+        </div>
+
+        <h2>
+          Eingegangene Vorschläge
+        </h2>
+
+        <p class="muted">
+          Wähle einen Vorschlag aus, um ihn der Klasse zu zeigen
+          und darüber abstimmen zu lassen.
+        </p>
+
+        <div
+          id="proposalQueue"
+          class="proposal-queue"
+        >
+          <div class="empty-state">
+            Noch keine offenen Vorschläge.
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- -------------------------------------------------------
+           ABSCHNITT 2: AKTUELLER VORSCHLAG
+           ------------------------------------------------------- -->
+
+      <div class="summary-card">
+
+        <div class="section-label">
+          2 · AKTUELLER VORSCHLAG
+        </div>
+
+        <h2 id="currentProposalTitle">
+          Noch kein Vorschlag ausgewählt
+        </h2>
+
+        <div
+          id="currentProposal"
+          class="current-proposal"
+        >
+          Wähle links einen Vorschlag aus.
+        </div>
+
+
+        <div class="proposal-controls">
+
+          <button
+            id="openProposalBtn"
+            class="primary"
+            disabled
+          >
+            Abstimmung öffnen
+          </button>
+
+          <button
+            id="closeProposalBtn"
+            class="secondary"
+            disabled
+          >
+            Abstimmung schließen
+          </button>
+
+          <button
+            id="revealProposalBtn"
+            class="secondary"
+            disabled
+          >
+            Ergebnis anzeigen
+          </button>
+
+          <button
+            id="acceptProposalBtn"
+            class="primary"
+            disabled
+          >
+            ✓ In Verfassung aufnehmen
+          </button>
+
+          <button
+            id="rejectProposalBtn"
+            class="danger"
+            disabled
+          >
+            ✕ Ablehnen
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- -------------------------------------------------------
+           ABSCHNITT 3: ABSTIMMUNGSERGEBNIS
+           ------------------------------------------------------- -->
+
+      <div class="summary-card">
+
+        <div class="section-label">
+          3 · ABSTIMMUNGSERGEBNIS
+        </div>
+
+        <h2>
+          Entscheidung der Klasse
+        </h2>
+
+        <div class="proposal-result">
+
+          <div class="result-number">
+
+            <div class="result-label">
+              DAFÜR
+            </div>
+
+            <strong id="proposalYesPercent">
+              –
+            </strong>
+
+            <span>
+              <span id="proposalYes">0</span>
+              Stimmen
+            </span>
+
+          </div>
+
+
+          <div class="result-bar">
+
+            <div
+              id="proposalYesBar"
+              class="vote-bar-yes"
+              style="width:0%"
+            ></div>
+
+          </div>
+
+
+          <div class="result-number">
+
+            <div class="result-label">
+              DAGEGEN
+            </div>
+
+            <strong id="proposalNo">
+              0
+            </strong>
+
+            <span>
+              Stimmen
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- -------------------------------------------------------
+           ABSCHNITT 4: KLASSENVERFASSUNG
+           ------------------------------------------------------- -->
+
+      <div class="summary-card">
+
+        <div class="section-label">
+          4 · UNSERE VERFASSUNG
+        </div>
+
+        <h2>
+          Die Verfassung der Klasse
+        </h2>
+
+        <p class="muted">
+          Alle von der Klasse angenommenen Regeln erscheinen hier
+          in der Reihenfolge ihrer Aufnahme.
+        </p>
+
+        <div
+          id="constitutionRules"
+          class="constitution-rules"
+        >
+          <div class="empty-state">
+            Noch keine Regel beschlossen.
+          </div>
+        </div>
+
+
+        <div class="comparison-controls">
+
+          <button
+            class="secondary"
+            id="releaseComparisonBtn"
+          >
+            Historischen Vergleich anzeigen
+          </button>
+
+        </div>
+
+
+        <div
+          id="comparisonArea"
+          class="hidden"
+        >
+
+          <div class="section-label comparison-label">
+            HISTORISCHER VERGLEICH
+          </div>
+
+          <h3>
+            Die französische Verfassung von 1791
+          </h3>
+
+          <p class="muted">
+            Vergleicht nun eure selbst entwickelte Verfassung mit
+            der historischen Verfassung von 1791.
+          </p>
+
+          <div
+            class="actual-rules"
+            id="actualRules"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         WEITERE KLASSENWERKZEUGE
+         ======================================================= -->
+
+    <section class="class-tools">
+
+      <div class="summary-card">
+
+        <div class="section-label">
+          KLASSENURTEIL
+        </div>
+
+        <h2>
+          Wie revolutionär war die Verfassung von 1791 wirklich?
+        </h2>
+
+        <p class="muted">
+          Bewerte die historische Verfassung auf einer Skala
+          von 0 bis 10.
+        </p>
+
+
+        <div
+          id="scoreGrid"
+          class="score-grid"
+        ></div>
+
+
+        <div
+          id="scoreAverage"
+          class="score-average"
+        >
+          Noch keine Bewertungen
+        </div>
+
+      </div>
+
+
+      <!-- RESET -->
+
+      <div class="admin-danger-zone">
+
+        <button
+          id="resetBtn"
+          class="danger"
+        >
+          Session vollständig zurücksetzen
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
 
 <script src="/static/admin.js"></script>
+
 </body>
 </html>
