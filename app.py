@@ -233,7 +233,7 @@ def status():
     })
 
 
-@@app.route("/api/vote", methods=["POST"])
+@app.route("/api/vote", methods=["POST"])
 def vote():
     # Prüfen, ob der Schüler zur aktuellen Session gehört
     ensure_student_session()
