@@ -237,6 +237,8 @@ function renderConstitution(s){
   if(s.comparison_released){
     renderActualRules(s.actual_constitution||[]);
   }
+
+  $("result-panel").classList.add("hidden");
 }
 
 function renderProposalQueue(proposals){
