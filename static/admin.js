@@ -153,6 +153,8 @@ function render(s){
 }
 
 function renderRound1(s){
+  $("round1Statistics").classList.remove("hidden");
+
   $("qNumber").textContent =
     s.question ? `AUSSAGE ${s.question.id} · ${s.question_index+1}/${s.question_count}` : "–";
   $("qText").textContent =
@@ -187,6 +189,8 @@ function renderRound1(s){
 }
 
 function renderConstitution(s){
+  $("round1Statistics").classList.add("hidden");
+
   $("qNumber").textContent="VERFASSUNGSBAU";
   $("qText").textContent="Die Klasse entwirft Schritt für Schritt ihre eigene Verfassung.";
   $("qHint").textContent="Erst eigene Regeln entwickeln, dann mit der historischen Verfassung von 1791 vergleichen.";
