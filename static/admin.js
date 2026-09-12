@@ -154,6 +154,7 @@ function render(s){
 
 function renderRound1(s){
   $("round1Statistics").classList.remove("hidden");
+  $("result-panel").classList.remove("hidden");
 
   $("qNumber").textContent =
     s.question ? `AUSSAGE ${s.question.id} · ${s.question_index+1}/${s.question_count}` : "–";
