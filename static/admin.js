@@ -342,75 +342,7 @@ async function refresh(){
   try{
     const s=await api("/api/admin/state");
     render(s);
-    await renderSummary();
   }catch(e){}
-}
-
-async function renderSummary(){
-  const d=await api("/api/admin/summary");
-
-  $("summary").innerHTML =
-    `<div class="summary-row summary-head">
-      <div>AUSSAGE</div><div>RUNDE 1</div>
-    </div>` +
-    d.questions.map(x=>{
-      const p1=x.round1.total
-        ? Math.round(x.round1.yes/x.round1.total*100)
-        : 0;
-
-      const total = x.round1.total || 0;
-const yes = x.round1.yes || 0;
-const no = x.round1.no || 0;
-
-const pYes = total ? Math.round(yes / total * 100) : 0;
-const pNo = total ? Math.round(no / total * 100) : 0;
-
-return `
-  <div class="summary-row">
-    <div>${x.question.id}. ${escapeHtml(x.question.text)}</div>
-
-    <div class="summary-result">
-      <div class="summary-result-labels">
-        <span>DAFÜR</span>
-        <strong>${pYes}% · ${yes}</strong>
-      </div>
-
-      <div class="mini-bar">
-        <i style="width:${pYes}%"></i>
-      </div>
-
-      <div class="summary-result-labels summary-no">
-        <span>DAGEGEN</span>
-        <strong>${pNo}% · ${no}</strong>
-      </div>
-    </div>
-  </div>`;
-    }).join("");
-
-  $("scoreGrid").innerHTML="";
-  for(let i=0;i<=10;i++){
-    const b=document.createElement("button");
-    b.textContent=i;
-    b.onclick=()=>submitScore(i);
-    $("scoreGrid").appendChild(b);
-  }
-
-  $("scoreAverage").textContent =
-    d.score_average===null
-      ? "Noch keine Bewertungen"
-      : `Klassenmittel: ${d.score_average}/10 (${d.scores.length} Stimmen)`;
-}
-
-async function submitScore(score){
-  try{
-    await api("/api/admin/final-score",{
-      method:"POST",
-      body:JSON.stringify({score})
-    });
-    renderSummary();
-  }catch(e){
-    alert(e.message);
-  }
 }
 
 setInterval(refresh,1000);
