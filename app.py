@@ -63,6 +63,7 @@ ACTUAL_CONSTITUTION = [
 
 state = {
     "active": False,
+    "session_id": None,
     "phase": "swipe",  # swipe | constitution
     "round": 1,
     "question_index": 0,
@@ -82,7 +83,6 @@ state = {
     "comparison_released": False,
 }
 
-
 def fresh_votes():
     return {"yes": 0, "no": 0, "total": 0}
 
@@ -99,7 +99,19 @@ def current_proposal():
         (p for p in state["proposals"] if p["id"] == proposal_id),
         None,
     )
+    
+def ensure_student_session():
+    if state["session_id"] is None:
+        return
 
+    if session.get("student_session_id") != state["session_id"]:
+        session["student_session_id"] = state["session_id"]
+
+        session.pop("voted", None)
+        session.pop("proposal_session_id", None)
+        session.pop("proposal_voted_id", None)
+
+        session.modified = True
 
 def require_admin():
     if not session.get("admin"):
@@ -137,8 +149,12 @@ def admin():
 
 @app.route("/api/status")
 def status():
+    # Prüfen, ob der Browser zur aktuell laufenden Unterrichts-Session gehört
+    ensure_student_session()
+
     if state["active"] and state["phase"] == "swipe":
         q = current_question()
+
         return jsonify({
             "active": True,
             "phase": "swipe",
@@ -148,15 +164,23 @@ def status():
             "question": q,
             "accepting": state["accepting"],
             "revealed": state["revealed"],
-            "votes": state["votes"].get(1, {}).get(state["question_index"], fresh_votes()),
+            "votes": state["votes"].get(
+                1,
+                {}
+            ).get(
+                state["question_index"],
+                fresh_votes()
+            ),
         })
 
     if state["active"] and state["phase"] == "constitution":
         proposal = current_proposal()
+
         voted = bool(
             proposal
             and session.get("proposal_voted_id") == proposal["id"]
         )
+
         return jsonify({
             "active": True,
             "phase": "constitution",
@@ -164,13 +188,25 @@ def status():
             "question_index": 0,
             "question_count": len(QUESTIONS),
             "question": None,
+
             "accepting": state["proposal_accepting"],
             "revealed": state["proposal_revealed"],
+
             "submission_open": state["submission_open"],
+
+            # Hat der Schüler in DIESER Session bereits
+            # einen Verfassungsvorschlag eingereicht?
+            "submission_sent": (
+                session.get("proposal_session_id")
+                == state["session_id"]
+            ),
+
             "proposal": proposal,
             "proposal_voted": voted,
             "proposal_votes": state["proposal_votes"],
+
             "constitution_rules": state["constitution_rules"],
+            "comparison_released": state["comparison_released"],
         })
 
     return jsonify({
@@ -180,41 +216,65 @@ def status():
         "question_index": 0,
         "question_count": len(QUESTIONS),
         "question": None,
+
         "accepting": False,
         "revealed": False,
         "votes": fresh_votes(),
+
         "submission_open": False,
         "proposal": None,
         "proposal_voted": False,
         "proposal_votes": fresh_votes(),
+
         "constitution_rules": state["constitution_rules"],
         "comparison_released": state["comparison_released"],
-        "submission_sent": bool(session.get("proposal_submitted")),
+
+        "submission_sent": False,
     })
 
 
-@app.route("/api/vote", methods=["POST"])
+@@app.route("/api/vote", methods=["POST"])
 def vote():
+    # Prüfen, ob der Schüler zur aktuellen Session gehört
+    ensure_student_session()
+
     if (
         not state["active"]
         or state["phase"] != "swipe"
         or not state["accepting"]
     ):
-        return jsonify({"ok": False, "error": "Die Abstimmung ist gerade geschlossen."}), 409
+        return jsonify({
+            "ok": False,
+            "error": "Die Abstimmung ist gerade geschlossen."
+        }), 409
 
     voter_tokens = session.setdefault("voted", {})
+
     key = f'1:{state["question_index"]}'
+
     if voter_tokens.get(key):
-        return jsonify({"ok": False, "error": "Du hast bereits abgestimmt."}), 409
+        return jsonify({
+            "ok": False,
+            "error": "Du hast bereits abgestimmt."
+        }), 409
 
     data = request.get_json(silent=True) or {}
     answer = data.get("answer")
+
     if answer not in ("yes", "no"):
-        return jsonify({"ok": False, "error": "Ungültige Antwort."}), 400
+        return jsonify({
+            "ok": False,
+            "error": "Ungültige Antwort."
+        }), 400
 
     state["votes"].setdefault(1, {})
-    state["votes"][1].setdefault(state["question_index"], fresh_votes())
+    state["votes"][1].setdefault(
+        state["question_index"],
+        fresh_votes()
+    )
+
     bucket = state["votes"][1][state["question_index"]]
+
     bucket[answer] += 1
     bucket["total"] += 1
 
@@ -278,8 +338,13 @@ def admin_state():
 @app.route("/api/admin/start", methods=["POST"])
 def admin_start():
     require_admin()
+
     state.update({
         "active": True,
+
+        # Neue Unterrichts-Session erzeugen
+        "session_id": secrets.token_hex(16),
+
         "phase": "swipe",
         "round": 1,
         "question_index": 0,
@@ -298,8 +363,11 @@ def admin_start():
         "constitution_rules": [],
         "comparison_released": False,
     })
+
+    # Nur die Admin-Session bereinigen
     session.pop("voted", None)
     session.pop("proposal_voted_id", None)
+
     return jsonify({"ok": True})
 
 
@@ -367,14 +435,21 @@ def admin_start_constitution():
 
 @app.route("/api/proposal/submit", methods=["POST"])
 def submit_proposal():
+    # Prüfen, ob der Browser zur aktuellen Unterrichts-Session gehört
+    ensure_student_session()
+
     if (
         not state["active"]
         or state["phase"] != "constitution"
         or not state["submission_open"]
     ):
-        return jsonify({"ok": False, "error": "Vorschläge können gerade nicht eingereicht werden."}), 409
+        return jsonify({
+            "ok": False,
+            "error": "Vorschläge können gerade nicht eingereicht werden."
+        }), 409
 
-    if session.get("proposal_submitted"):
+    # Prüfen, ob bereits in DIESER Session ein Vorschlag eingereicht wurde
+    if session.get("proposal_session_id") == state["session_id"]:
         return jsonify({
             "ok": False,
             "error": "Du hast bereits einen Vorschlag eingereicht."
@@ -384,7 +459,10 @@ def submit_proposal():
     text = " ".join(str(data.get("text", "")).split()).strip()
 
     if len(text) < 8:
-        return jsonify({"ok": False, "error": "Der Vorschlag ist zu kurz."}), 400
+        return jsonify({
+            "ok": False,
+            "error": "Der Vorschlag ist zu kurz."
+        }), 400
 
     if len(text) > 240:
         return jsonify({
@@ -397,10 +475,12 @@ def submit_proposal():
         "text": text,
         "status": "pending",
     }
+
     state["next_proposal_id"] += 1
     state["proposals"].append(proposal)
 
-    session["proposal_submitted"] = True
+    # Diesen Schüler für diese konkrete Session als "hat eingereicht" markieren
+    session["proposal_session_id"] = state["session_id"]
     session.modified = True
 
     return jsonify({"ok": True})
@@ -584,6 +664,7 @@ def admin_reset():
     require_admin()
     state.update({
         "active": False,
+        "session_id": None,
         "phase": "swipe",
         "round": 1,
         "question_index": 0,
