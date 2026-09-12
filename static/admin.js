@@ -203,6 +203,7 @@ function renderConstitution(s){
     s.submission_open ? "Vorschläge werden gesammelt" : "Vorschläge geschlossen";
 
   $("statusDot").classList.toggle("live",s.proposal_accepting);
+  renderRound1MiniResults(s.votes);
 
   const yes=s.proposal_votes?.yes||0;
   const no=s.proposal_votes?.no||0;
@@ -410,3 +411,27 @@ async function submitScore(score){
 }
 
 setInterval(refresh,1000);
+
+
+function renderRound1MiniResults(votes){
+  const container = $("round1MiniResults");
+
+  if(!container) return;
+
+  const results = [];
+
+  for(let i = 0; i < 12; i++){
+    const v = votes?.[1]?.[i] || {yes:0,no:0,total:0};
+    const total = v.yes + v.no;
+    const percent = total ? Math.round(v.yes / total * 100) : 0;
+
+    results.push(`
+      <div class="mini-result-row">
+        <span>Aussage ${i + 1}</span>
+        <strong>${total ? percent + "% Dafür" : "–"}</strong>
+      </div>
+    `);
+  }
+
+  container.innerHTML = results.join("");
+}
