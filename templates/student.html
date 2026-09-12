@@ -18,12 +18,12 @@
 
   <section id="waiting" class="card center">
     <div class="big-icon">⌛</div>
-    <h2>Warte auf die nächste Aussage</h2>
-    <p>Die Lehrkraft startet die Abstimmung gleich.</p>
+    <h2>Warte auf die nächste Phase</h2>
+    <p>Die Lehrkraft startet gleich.</p>
   </section>
 
-  <section id="voteArea" class="hidden">
-    <div class="round-pill" id="roundPill">RUNDE 1</div>
+  <section id="swipeArea" class="hidden">
+    <div class="round-pill">RUNDE 1</div>
     <div class="progress"><div id="progressBar"></div></div>
     <div class="counter" id="counter"></div>
 
@@ -31,7 +31,6 @@
       <div class="card-number" id="number"></div>
       <div class="card-ornament">⚖</div>
       <h2 id="statement"></h2>
-      <p id="hint" class="hint"></p>
     </article>
 
     <div id="buttons" class="vote-buttons">
@@ -42,20 +41,60 @@
     <div id="done" class="card center hidden">
       <div class="big-icon">✓</div>
       <h2>Entscheidung gespeichert</h2>
-      <p>Du siehst das Ergebnis erst, wenn die Lehrkraft es freigibt.</p>
+      <p>Das Ergebnis wird von der Lehrkraft freigegeben.</p>
     </div>
 
     <div id="revealed" class="result-card hidden">
       <div class="result-title">KLASSENERGEBNIS</div>
       <div class="result-bars">
-        <div><span>AKZEPTIEREN</span><strong id="yesCount">0</strong></div>
+        <div><span>DAFÜR</span><strong id="yesCount">0%</strong></div>
         <div class="bar"><i id="yesBar"></i></div>
-        <div><span>ABLEHNEN</span><strong id="noCount">0</strong></div>
+        <div><span>DAGEGEN</span><strong id="noCount">0%</strong></div>
         <div class="bar"><i id="noBar"></i></div>
       </div>
     </div>
   </section>
-<div style="text-align:center;margin-top:12px;font-size:.7rem;color:#747474;"><a href="/privacy">Datenschutz</a></div>
+
+  <section id="constitutionArea" class="hidden">
+    <div class="round-pill">UNSERE VERFASSUNG</div>
+
+    <article id="proposalCard" class="statement-card constitution-card">
+      <div class="card-number">GEMEINSAM ENTSCHEIDEN</div>
+      <div class="card-ornament">📜</div>
+      <h2 id="proposalText">Warte auf einen Vorschlag.</h2>
+      <p id="proposalStatus" class="hint"></p>
+    </article>
+
+    <div id="proposalVoteButtons" class="vote-buttons hidden">
+      <button class="vote no" data-answer="no">← <span>NICHT AUFNEHMEN</span></button>
+      <button class="vote yes" data-answer="yes"><span>AUFNEHMEN</span> →</button>
+    </div>
+
+    <div id="proposalDone" class="card center hidden">
+      <div class="big-icon">✓</div>
+      <h2>Stimme gespeichert</h2>
+      <p>Warte, bis die Lehrkraft das Ergebnis zeigt.</p>
+    </div>
+
+    <div id="proposalResult" class="result-card hidden">
+      <div class="result-title">KLASSENABSTIMMUNG</div>
+      <div class="result-bars">
+        <div><span>AUFNEHMEN</span><strong id="proposalYesCount">0%</strong></div>
+        <div class="bar"><i id="proposalYesBar"></i></div>
+        <div><span>NICHT AUFNEHMEN</span><strong id="proposalNoCount">0%</strong></div>
+        <div class="bar"><i id="proposalNoBar"></i></div>
+      </div>
+    </div>
+
+    <section class="constitution-list">
+      <div class="section-label">BISHER BESCHLOSSEN</div>
+      <div id="constitutionRulesStudent"></div>
+    </section>
+  </section>
+
+  <div style="text-align:center;margin-top:12px;font-size:.7rem;color:#747474;">
+    <a href="/privacy">Datenschutz</a>
+  </div>
 </main>
 <script src="/static/student.js"></script>
 </body>
