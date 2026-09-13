@@ -9,18 +9,29 @@ app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(32))
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "1791")
 
 QUESTIONS = [
-    {"id": 1, "text": "Die Verfassung von 1791 beendet die politische Vorherrschaft des Königs, obwohl er weiterhin Staatsoberhaupt bleibt."},
-    {"id": 2, "text": "Die Einführung einer gewählten Nationalversammlung stellt einen grundlegenden Bruch mit der politischen Ordnung des Ancien Régime dar."},
-    {"id": 3, "text": "Wenn die Staatsgewalt von der Nation ausgeht, bedeutet dies, dass politische Herrschaft nicht mehr allein durch die Stellung des Königs legitimiert wird."},
-    {"id": 4, "text": "Die rechtliche Gleichheit der Bürger beseitigt die gesellschaftlichen Unterschiede zwischen Adel, Klerus und dem übrigen Volk."},
-    {"id": 5, "text": "Eine Verfassung kann als revolutionär gelten, obwohl ein großer Teil der Bevölkerung weiterhin vom politischen Entscheidungsprozess ausgeschlossen bleibt."},
-    {"id": 6, "text": "Dass Frauen keine politischen Rechte erhalten, widerspricht dem Anspruch der Revolution auf Freiheit und Gleichheit."},
-    {"id": 7, "text": "Das Vetorecht des Königs zeigt, dass die Revolutionäre die monarchische Herrschaft nicht vollständig abschaffen wollten."},
-    {"id": 8, "text": "Die Beschränkung der politischen Macht des Königs bedeutet nicht automatisch, dass Frankreich bereits eine demokratische Ordnung geschaffen hat."},
-    {"id": 9, "text": "Die Abschaffung ständischer Vorrechte verändert die rechtliche Ordnung stärker als die bloße Einführung einer gewählten Volksvertretung."},
-    {"id": 10, "text": "Wenn politische Rechte von Besitz oder Steuerleistung abhängen, widerspricht dies dem Gedanken der Volkssouveränität."},
-    {"id": 11, "text": "Die Verteilung staatlicher Macht auf verschiedene Institutionen verhindert, dass politische Herrschaft erneut vollständig in den Händen einer einzelnen Person liegt."},
-    {"id": 12, "text": "Die Verfassung von 1791 verwirklicht die Forderungen der Französischen Revolution nur teilweise."},
+    {"id": 1, "text": "Beendet die Verfassung von 1791 die politische Vorherrschaft des Königs, obwohl er weiterhin Staatsoberhaupt bleibt?"},
+    
+    {"id": 2, "text": "Stellt die Einführung einer gewählten Nationalversammlung einen grundlegenden Bruch mit der politischen Ordnung des Ancien Régime dar?"},
+    
+    {"id": 3, "text": "Bedeutet die Aussage, dass die Staatsgewalt von der Nation ausgeht, dass politische Herrschaft nicht mehr allein durch die Stellung des Königs legitimiert wird?"},
+    
+    {"id": 4, "text": "Beseitigt die rechtliche Gleichheit der Bürger die gesellschaftlichen Unterschiede zwischen Adel, Klerus und dem übrigen Volk?"},
+    
+    {"id": 5, "text": "Kann eine Verfassung als revolutionär gelten, obwohl ein großer Teil der Bevölkerung weiterhin vom politischen Entscheidungsprozess ausgeschlossen bleibt?"},
+    
+    {"id": 6, "text": "Widerspricht es dem Anspruch der Revolution auf Freiheit und Gleichheit, dass Frauen keine politischen Rechte erhalten?"},
+    
+    {"id": 7, "text": "Zeigt das Vetorecht des Königs, dass die Revolutionäre die monarchische Herrschaft nicht vollständig abschaffen wollten?"},
+    
+    {"id": 8, "text": "Bedeutet die Beschränkung der politischen Macht des Königs, dass Frankreich bereits eine demokratische Ordnung geschaffen hat?"},
+    
+    {"id": 9, "text": "Verändert die Abschaffung ständischer Vorrechte die rechtliche Ordnung stärker als die bloße Einführung einer gewählten Volksvertretung?"},
+    
+    {"id": 10, "text": "Widerspricht es dem Gedanken der Volkssouveränität, wenn politische Rechte von Besitz oder Steuerleistung abhängen?"},
+    
+    {"id": 11, "text": "Verhindert die Verteilung staatlicher Macht auf verschiedene Institutionen, dass politische Herrschaft erneut vollständig in den Händen einer einzelnen Person liegt?"},
+    
+    {"id": 12, "text": "Verwirklicht die Verfassung von 1791 die Forderungen der Französischen Revolution nur teilweise?"}
 ]
 
 # Bewusst knapp gehaltene Vergleichspunkte für die abschließende Auswertung.
